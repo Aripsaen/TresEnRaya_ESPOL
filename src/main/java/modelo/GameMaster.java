@@ -16,43 +16,34 @@ public class GameMaster implements Serializable{
     private static boolean crossTurn;
 
     public static int checkBoard(Board board) {
-        Comparator<Symbol> cmp = board.getCmp();
-        Symbol[][] cells = board.getCells();
-        Symbol s00 = cells[0][0];
-        Symbol s10 = cells[1][0];
-        Symbol s20 = cells[2][0];
-        Symbol s01 = cells[0][1];
-        Symbol s11 = cells[1][1];
-        Symbol s21 = cells[2][1];
-        Symbol s02 = cells[0][2];
-        Symbol s12 = cells[1][2];
-        Symbol s22 = cells[2][2];
-        if (cmp.compare(s00, s10) != -1 && cmp.compare(s10, s20) != -1 && cmp.compare(s00, s10) == cmp.compare(s10, s20)) {
-            return cmp.compare(s00, s10);
+    Comparator<Symbol> cmp = board.getCmp();
+    Symbol[][] cells = board.getCells();
+
+    // Usar una lista de combinaciones para iterar en lugar de tener múltiples if's
+    int[][] positions = {
+        {0, 0, 1, 0, 2, 0}, // Primera columna
+        {0, 1, 1, 1, 2, 1}, // Segunda columna
+        {0, 2, 1, 2, 2, 2}, // Tercera columna
+        {0, 0, 0, 1, 0, 2}, // Fila superior
+        {1, 0, 1, 1, 1, 2}, // Fila del medio
+        {2, 0, 2, 1, 2, 2}, // Fila inferior
+        {0, 0, 1, 1, 2, 2}, // Diagonal de arriba a abajo
+        {2, 0, 1, 1, 0, 2}  // Diagonal de abajo a arriba
+    };
+
+    for (int[] pos : positions) {
+        Symbol s1 = cells[pos[0]][pos[1]];
+        Symbol s2 = cells[pos[2]][pos[3]];
+        Symbol s3 = cells[pos[4]][pos[5]];
+
+        if (cmp.compare(s1, s2) != -1 && cmp.compare(s2, s3) != -1 && cmp.compare(s1, s2) == cmp.compare(s2, s3)) {
+            return cmp.compare(s1, s2);
         }
-        if (cmp.compare(s01, s11) != -1 && cmp.compare(s11, s21) != -1 && cmp.compare(s01, s11) == cmp.compare(s11, s21)) {
-            return cmp.compare(s01, s11);
-        }
-        if (cmp.compare(s02, s12) != -1 && cmp.compare(s12, s22) != -1 && cmp.compare(s02, s12) == cmp.compare(s12, s22)) {
-            return cmp.compare(s02, s12);
-        }
-        if (cmp.compare(s00, s01) != -1 && cmp.compare(s01, s02) != -1 && cmp.compare(s00, s01) == cmp.compare(s01, s02)) {
-            return cmp.compare(s00, s01);
-        }
-        if (cmp.compare(s10, s11) != -1 && cmp.compare(s11, s12) != -1 && cmp.compare(s10, s11) == cmp.compare(s11, s12)) {
-            return cmp.compare(s10, s11);
-        }
-        if (cmp.compare(s20, s21) != -1 && cmp.compare(s21, s22) != -1 && cmp.compare(s20, s21) == cmp.compare(s21, s22)) {
-            return cmp.compare(s20, s21);
-        }
-        if (cmp.compare(s00, s11) != -1 && cmp.compare(s11, s22) != -1 && cmp.compare(s00, s11) == cmp.compare(s11, s22)) {
-            return cmp.compare(s00, s11);
-        }
-        if (cmp.compare(s20, s11) != -1 && cmp.compare(s11, s02) != -1 && cmp.compare(s20, s11) == cmp.compare(s11, s02)) {
-            return cmp.compare(s20, s11);
-        }
-        return -1;
     }
+
+    return -1;
+}
+
 
     public static boolean isCrossTurn() {
         return crossTurn;

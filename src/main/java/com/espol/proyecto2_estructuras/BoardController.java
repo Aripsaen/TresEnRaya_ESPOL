@@ -94,6 +94,8 @@ public class BoardController implements Initializable {
 
     private static boolean loaded;
 
+    private String STYLE = "-fx-background-color: #3498db; -fx-text-fill: white;";
+
     /**
      * Initializes the controller class.
      */
@@ -304,27 +306,27 @@ public class BoardController implements Initializable {
     private void giveTip() {
         if (againstComputer) {
             int[] play = MinMaxer.minmax(tableroActual, computer, human, hardMode);
-            grid[play[0]][play[1]].setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+            grid[play[0]][play[1]].setStyle(STYLE);
         } else {
             boolean current = GameMaster.isCrossTurn();
             if (startedAsCross) {
                 if (current) {
                     int[] reply = MinMaxer.minmax(tableroActual, computer, human, hardMode);
-                    grid[reply[0]][reply[1]].setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+                    grid[reply[0]][reply[1]].setStyle(STYLE);
                     current = !current;
                 } else {
                     int[] reply = MinMaxer.minmax(tableroActual, human, computer, hardMode);
-                    grid[reply[0]][reply[1]].setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+                    grid[reply[0]][reply[1]].setStyle(STYLE);
                     current = !current;
                 }
             } else {
                 if (!current) {
                     int[] reply = MinMaxer.minmax(tableroActual, computer, human, hardMode);
-                    grid[reply[0]][reply[1]].setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+                    grid[reply[0]][reply[1]].setStyle(STYLE);
                     current = !current;
                 } else {
                     int[] reply = MinMaxer.minmax(tableroActual, human, computer, hardMode);
-                    grid[reply[0]][reply[1]].setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+                    grid[reply[0]][reply[1]].setStyle(STYLE);
                     current = !current;
                 }
             }
